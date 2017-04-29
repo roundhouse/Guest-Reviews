@@ -1,0 +1,14 @@
+{
+	"name": "roundhouse/guestreviews",
+	"description": "Manager guest reviews for entries, assets and commerce products",
+	"type": "craft-plugin",
+	"authors": [
+		{
+			"name": "Vadim Goncharov",
+			"homepage": "http://roundhouseagency.com/"
+		}
+	],
+	"require": {
+		"composer/installers": "~1.0"
+	}
+}

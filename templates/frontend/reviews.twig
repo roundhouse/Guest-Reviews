@@ -1,0 +1,127 @@
+{% set class = options ? options.class : 'gr-container' %}
+{% set id = options ? options.id : 'gr-container' %}
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700" rel="stylesheet">
+
+<section class="{{ class }}" id="{{ id }}">
+
+    <hr />
+
+    <div class="gr-container-title">
+        <div class="gr-title">{{ "Customer Reviews" |t }}</div>
+        <a href="#" class="gr-btn gr-btn-write-review">Write a Review</a>
+    </div>
+    
+    <div class="gr-average-filter-wrapper">
+        {{ craft.guestReviews.displayReviewsSummary(reviews[0].productId) }}
+        <div class="gr-filter">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown button
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+
+            
+            <select name="" id="">
+                <option value="">Select</option>
+                <option value="asc">Most Recent</option>
+                <option value="desc">Highest Rating</option>
+                <option value="asc">Lowest Rating</option>
+                <option value="asc">Most Helpful</option>
+            </select>         
+        </div>
+    </div>
+
+    <hr />
+
+    {% for review in reviews %}
+        <article class="gr-review-item" data-review-id={{ review.id }} data-review-item="reviewItem:{{ review.id }}">
+            <header>
+                <div class="gr-reviewer">
+                    <div class="gr-name">{{ review.name }}</div>
+                    {% if review.location != '' %}
+                        <div class="gr-location">{{ review.location }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="gr-ratings">
+                    <div class="gr-quality-rating">
+                        <div class="gr-ratings-text">{{ "Quality" |t }}</div>
+                        <div class="gr-qr-meter gr-rating-meter gr-meter-length-{{ review.qualityRating }}">
+                            <div class="gr-rating-meter-handle"></div>
+                        </div>
+                    </div>
+                    <div class="gr-value-rating">
+                        <div class="gr-ratings-text">{{ "Value" |t }}</div>
+                        <div class="gr-vr-meter gr-rating-meter gr-meter-length-{{ review.valueRating }}">
+                            <div class="gr-rating-meter-handle"></div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <main>
+                <div class="gr-post-date">Posted {{ review.dateCreated |timeAgo(review.dateCreated) }} • <a href="#" class="gr-report-action {% if review.reported %}gr-reported{% endif %}"><div class="gr-report-text">{% if review.reported %}Reported{% else %}Report{% endif %}</div> <svg width="9px" height="10px" viewBox="0 0 15 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g fill-rule="nonzero" fill="#000000"><path d="M9,0 C8.277,3.21466667 6.8568,5.56933333 5.5788,7.56333333 C4.572,6.45133333 3.567,5.12666667 2.7714,3.382 C2.661,9.18666667 -0.5418,12.584 0.0798,15.6173333 C0.6492,18.396 2.9778,20.216 5.4636,19.972 C4.0782,19.7946667 2.88,18.674 2.553,17.078 C2.139,15.056 4.2738,12.7906667 4.347,8.92133333 C4.8774,10.0846667 5.5476,10.9673333 6.219,11.7093333 C7.071,10.38 8.0178,8.81 8.499,6.66733333 C9.4986,11.112 12.4986,13.1013333 12.4986,15.556 C12.4986,17.9213333 10.836,19.8486667 8.739,19.9866667 C8.8266,19.9906667 8.9124,20 9,20 C12.3138,20 15,17.0153333 15,13.3333333 C15,9.65133333 10.5,6.66666667 9,0 Z"></path><path d="M7.2,14 C6.75,16 5.4,16.896 5.4,18 C5.4,19.104 6.2064,20 7.2,20 C8.1942,20 9,19.104 9,18 C9,16.896 7.65,16 7.2,14 Z"></path></g></g></svg></a></div>
+
+                <div class="gr-overall-rating">
+                    {% for star in range(1, 5) %}
+                        {% if loop.index <= review.overallRating %}
+                            <svg width="21px" height="20px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M4.817,0.652 C4.954,0.249 5.177,0.249 5.316,0.652 L6.152,3.1 C6.29,3.503 6.749,3.837 7.174,3.843 L9.761,3.881 C10.188,3.887 10.256,4.1 9.916,4.357 L7.844,5.908 C7.504,6.165 7.327,6.704 7.453,7.112 L8.217,9.584 C8.343,9.99 8.16,10.121 7.815,9.877 L5.7,8.387 C5.351,8.141 4.783,8.141 4.435,8.387 L2.319,9.877 C1.969,10.121 1.789,9.99 1.915,9.584 L2.681,7.112 C2.806,6.704 2.629,6.165 2.288,5.908 L0.217,4.357 C-0.124,4.1 -0.054,3.887 0.371,3.881 L2.959,3.843 C3.385,3.837 3.845,3.503 3.982,3.1 L4.817,0.652 Z" fill="#000000" fill-rule="nonzero"></path></g></svg>
+                        {% else %}
+                            <svg width="21px" height="20px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M7.79141511,9.648 C7.61941511,9.648 7.44441511,9.585 7.25741511,9.452 L5.34641511,8.105 C5.20241511,8.004 4.88741511,8.002 4.74241511,8.105 L2.83241511,9.452 C2.43341511,9.735 2.02941511,9.695 1.81941511,9.411 C1.67941511,9.223 1.65741511,8.973 1.75241511,8.669 L2.44041511,6.436 C2.49641511,6.257 2.40441511,5.972 2.25341511,5.859 L0.38241511,4.46 C-0.0505848899,4.135 -0.0245848899,3.807 0.0294151101,3.642 C0.0834151101,3.476 0.25441511,3.198 0.79641511,3.191 L3.13341511,3.157 C3.32041511,3.154 3.56041511,2.978 3.62141511,2.802 L4.37741511,0.59 C4.55241511,0.077 4.87041511,0 5.04541511,0 C5.21941511,0 5.53741511,0.077 5.71241511,0.59 L6.46741511,2.802 C6.52941511,2.98 6.76941511,3.156 6.95541511,3.157 L9.29241511,3.191 C9.85541511,3.199 10.0164151,3.508 10.0594151,3.644 C10.1144151,3.81 10.1394151,4.134 9.70541511,4.459 L7.83541511,5.859 C7.68641511,5.971 7.59341511,6.255 7.64741511,6.435 L8.33841511,8.666 C8.43341511,8.971 8.40941511,9.221 8.27141511,9.409 C8.15941511,9.561 7.98541511,9.648 7.79141511,9.648 Z M1.48741511,4.113 L2.81541511,5.112 C3.28541511,5.466 3.50541511,6.152 3.33441511,6.711 L2.83441511,8.329 L4.20441511,7.343 C4.66741511,7.018 5.42741511,7.02 5.88541511,7.343 L7.24241511,8.299 L6.75641511,6.711 C6.58341511,6.149 6.80641511,5.463 7.27641511,5.112 L8.60541511,4.117 L6.94541511,4.089 C6.35741511,4.081 5.77341511,3.656 5.58541511,3.102 L5.05041511,1.531 L4.50941511,3.102 C4.32141511,3.658 3.73741511,4.081 3.14941511,4.089 L1.48741511,4.113 Z" fill="#000000" fill-rule="nonzero"></path></g></svg>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <div class="gr-review-title">{{ review.title }}</div>
+
+                {% if review.productRecommend %}
+                <div class="gr-review-recommend">
+                    <svg width="15px" height="16px" viewBox="0 0 15 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g fill-rule="nonzero" fill="#000000"><path d="M7.5,0 C3.35769231,0 0,0.382857143 0,4.8 C0,11.9994286 6.75,16 7.5,16 C8.25,16 15,11.9994286 15,4.8 C15,0.382857143 11.6423077,0 7.5,0 Z M6.90576923,10.5525714 C6.67730769,10.7788571 6.30634615,10.7788571 6.07730769,10.5525714 L3.62423077,8.12342857 C3.51461538,8.01485714 3.45288462,7.86685714 3.45288462,7.71314286 C3.45288462,7.55942857 3.51461538,7.412 3.62423077,7.30285714 L4.20230769,6.73028571 C4.43076923,6.504 4.80173077,6.504 5.03076923,6.73028571 L6.49153846,8.17714286 L10.2957692,4.40971429 C10.5242308,4.18342857 10.8951923,4.18342857 11.1242308,4.40971429 L11.7017308,4.98171429 C11.9301923,5.208 11.9301923,5.57542857 11.7017308,5.80228571 L6.90576923,10.5525714 Z"></path></g></g></svg>
+                    <div class="gr-product-recommend">{{ 'Yes, I recommend this product' |t }}</div>
+                </div>
+                {% endif %}
+                
+                <div class="gr-review-body {% if review.productRecommend %}has-reccomend{% endif %}">
+                    {{ review.review }}
+                </div>
+
+                <div class="gr-helpful-block">
+                    <div class="gr-helpful-text">{{ "Was this review helpful?" |t }}</div>
+                    
+                    {% set helpful = craft.guestReviews.totalHelpful(review.id, true) %}
+                    {% set notHelpful = craft.guestReviews.totalHelpful(review.id, false) %}
+                    
+                    <div class="gr-helpful-wrapper">
+                        <a href="{{ actionUrl('guestReviews/helpful/saveHelpful') }}" class="gr-helpful-action gr-helpful-action-yes">
+                            <div class="gr-helpful-count gr-yes-count">{{ helpful }}</div>
+                            <div class="gr-like-icon gr-helpful-icon"><svg width="16px" height="16px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g fill-rule="nonzero" fill="#000000"><path d="M7.99584,10.0215 C8.16192,9.7055 9.05712,7.913 9.0384,6.27 C9.0384,6.27 9.05568,5.717 8.65776,5.5365 C8.52816,5.478 7.69248,5.0545 7.69248,5.0545 C6.75984,3.4445 5.76,2.229 4.284,1.1645 C3.7344,0.768 3.70896,0 3.33648,0 C2.964,0 2.2008,0.77 2.88384,1.923 C2.88384,1.923 3.22656,2.4895 3.81984,3.0205 C3.81984,3.0205 4.58592,3.6275 3.68976,4.1785 C3.68976,4.1785 3.10896,4.486 2.40384,4.442 C2.11824,4.4255 1.42656,4.377 1.28928,4.348 C1.152,4.319 0.6912,4.17 0.32256,4.403 C-0.3888,4.8525 0.08832,8.8015 1.6368,10.2935 C3.19632,11.7975 5.43984,10.3575 6.76608,10.4315 C7.23744,10.458 7.52256,10.403 7.52256,10.403 C7.52256,10.403 7.8288,10.3385 7.99584,10.0215 Z"></path><path d="M10.62624,5.5185 C10.06416,5.4245 9.54672,5.3325 9.4368,5.32 C9.34224,5.3095 9.33264,5.441 9.41184,5.4795 C9.50976,5.539 9.6456,5.716 9.68448,6.081 C9.6864,6.345 9.88416,8.046 8.52336,10.38 C8.20992,10.918 7.96992,10.899 7.5696,10.9355 C7.58688,11.1875 7.956,11.328 7.956,11.328 C7.956,11.328 9.1416,11.7635 9.93984,11.4615 C10.7376,11.159 11.89008,9.5255 11.98272,6.939 C12.01584,6.021 11.32896,5.65 10.62624,5.5185 Z"></path></g></g></svg></div>
+                        </a>
+
+                        <a href="{{ actionUrl('guestReviews/helpful/saveHelpful') }}" class="gr-helpful-action gr-helpful-action-no">
+                            <div class="gr-helpful-count gr-no-count">{{ notHelpful }}</div>
+                            <div class="gr-dislike-icon gr-helpful-icon"><svg width="16px" height="16px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(6.000000, 6.000000) scale(-1, 1) rotate(-180.000000) translate(-6.000000, -6.000000) " fill-rule="nonzero" fill="#000000"><path d="M7.99584,10.0215 C8.16192,9.7055 9.05712,7.913 9.0384,6.27 C9.0384,6.27 9.05568,5.717 8.65776,5.5365 C8.52816,5.478 7.69248,5.0545 7.69248,5.0545 C6.75984,3.4445 5.76,2.229 4.284,1.1645 C3.7344,0.768 3.70896,0 3.33648,0 C2.964,0 2.2008,0.77 2.88384,1.923 C2.88384,1.923 3.22656,2.4895 3.81984,3.0205 C3.81984,3.0205 4.58592,3.6275 3.68976,4.1785 C3.68976,4.1785 3.10896,4.486 2.40384,4.442 C2.11824,4.4255 1.42656,4.377 1.28928,4.348 C1.152,4.319 0.6912,4.17 0.32256,4.403 C-0.3888,4.8525 0.08832,8.8015 1.6368,10.2935 C3.19632,11.7975 5.43984,10.3575 6.76608,10.4315 C7.23744,10.458 7.52256,10.403 7.52256,10.403 C7.52256,10.403 7.8288,10.3385 7.99584,10.0215 Z"></path><path d="M10.62624,5.5185 C10.06416,5.4245 9.54672,5.3325 9.4368,5.32 C9.34224,5.3095 9.33264,5.441 9.41184,5.4795 C9.50976,5.539 9.6456,5.716 9.68448,6.081 C9.6864,6.345 9.88416,8.046 8.52336,10.38 C8.20992,10.918 7.96992,10.899 7.5696,10.9355 C7.58688,11.1875 7.956,11.328 7.956,11.328 C7.956,11.328 9.1416,11.7635 9.93984,11.4615 C10.7376,11.159 11.89008,9.5255 11.98272,6.939 C12.01584,6.021 11.32896,5.65 10.62624,5.5185 Z"></path></g></g></svg></div>
+                        </a>
+                    </div>
+
+                </div>
+                
+            </main>
+        </article> 
+        {% set response = craft.guestReviews.displayReviewResponse(review.id) %}
+        {% if response %}
+            {% set user = craft.users.id(response.userId).first() %}
+            <section class="gr-response-container" id="gr-response-container">
+                <div class="gr-response-title">{{ "Response from" ~ siteName |t }}</div>  
+                <div class="gr-response-user">{{ user.friendlyName }} • {{ response.dateCreated |timeAgo(response.dateCreated) }}</div>
+                <div class="gr-response-message">{{ response.responseMessage |raw|nl2br }}</div>
+            </section>
+        {% endif %}
+        <hr />
+    {% endfor %}
+
+</section>
